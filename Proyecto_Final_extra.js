@@ -21,6 +21,9 @@ function calcularCotizacion() {
     // Recargo
     var recargo = 0
     var recargo_total = 0
+    var recargo_conyuge = 0
+    var recargo_hijos = 0
+    var recargo_propiedades = 0
 
     // Precio final 
     var precio_final = 0
@@ -43,7 +46,7 @@ function calcularCotizacion() {
         edad_conyuge_numero = parseInt(edad_conyuge)
     }
 
-    var hijos = prompt("¿Tiene hijos o hijas? (Si/no")
+    var hijos = prompt("¿Tiene hijos o hijas? (Si/no)")
     var cantidad_hijos = 0
     if ("SI" == hijos.toUpperCase()) {
         cantidad_hijos = parseInt(prompt('¿Cuántos hijos/as tiene? Ingrese solamente números'))
@@ -54,50 +57,56 @@ function calcularCotizacion() {
 
     // Aquí debe calcular el recargo total basado en las respuestas ingresadas
 
-    // Recargo basado en la edad del usuario
-    if (edad_numero >= 18 && edad_numero <= 24) {
-        recargo = precio_base * edad_18
-        recargo_total = recargo_total + recargo
-    } else if (edad_numero >= 25 && edad_numero <= 49) {
-        recargo = precio_base * edad_25
-        recargo_total = recargo_total + recargo
-    } else if (edad_numero >= 50) {
-        recargo = precio_base * edad_50
-        recargo_total = recargo_total + recargo
-    }
+   // Recargo basado en la edad del usuario
+if (edad_numero >= 18 && edad_numero <= 24) {
+    recargo = precio_base * edad_18
+    
+} else if (edad_numero >= 25 && edad_numero <= 49) {
+    recargo = precio_base * edad_25
+   
+} else if (edad_numero >= 50) {
+    recargo = precio_base * edad_50
+   
+}
 
-    // Si el usuario está casado, se puede agregar el recargo adicional por su cónyuge
-    if ("SI" == casado.toUpperCase()) {
-        if (edad_conyuge_numero >= 18 && edad_conyuge_numero <= 24) {
-            recargo = precio_base * edad_18
-            recargo_total = recargo_total + recargo
-        } else if (edad_conyuge_numero >= 25 && edad_conyuge_numero <= 49) {
-            recargo = precio_base * edad_25
-            recargo_total = recargo_total + recargo
-        } else if (edad_conyuge_numero >= 50) {
-            recargo = precio_base * edad_50
-            recargo_total = recargo_total + recargo
-        }
-    }
+// 2. Recargo por la edad del conyuge
+if ("SI" == casado.toUpperCase()) {
+  if (edad_conyuge_numero >= 18 && edad_conyuge_numero <= 24) {
+    recargo_conyuge = precio_base * edad_18
+   
+  } else if (edad_conyuge_numero >= 25 && edad_conyuge_numero <= 49) {
+    recargo_conyuge = precio_base * edad_25
+   
+  } else if (edad_conyuge_numero >= 50) {
+    recargo_conyuge = precio_base * edad_50
+   
+  }
+}
 
-    // Si tiene hijos, se agrega un recargo adicional por cada hijo
-    if (cantidad_hijos > 0) {
-        recargo_total += precio_base * hijos_recargo * cantidad_hijos
-    }
+// 3. Recargo por la cantidad de hijos
+if (cantidad_hijos > 0) {
+  recargo_hijos += precio_base * hijos_recargo * cantidad_hijos
+}
 
-    // Recargo por propiedades (35% por propiedad)
-    recargo_total += precio_base * propiedad_recargo * propiedades
+if (propiedades > 0){
+    recargo_propiedades += precio_base * propiedades
+}
 
-    // Recargo por salario (5% sobre el salario)
-    recargo_total += salario * salario_recargo
+recargo_salario = salario * salario_recargo
 
-    // Calcular el precio final
-    precio_final = precio_base + recargo_total
+recargo_total = recargo +recargo_conyuge + recargo_hijos + recargo_propiedades + recargo_salario
+precio_final = precio_base + recargo_total
 
     // Resultado
-    alert("Para el asegurado " + nombre)
-    alert("El recargo total será de: " + recargo_total)
-    alert("El precio final será de: " + precio_final)
+alert("Precio Base: " + precio_base)
+alert("Para el asegurado: " + nombre)
+alert("Recargo Usuario: " + recargo)
+alert("Recargo Conyugue: " + recargo_conyuge)
+alert("Recargo Hijos: " + recargo_hijos)
+alert("Recargo Salario :" + recargo_salario)
+alert("Recargo propiedades: " + recargo_propiedades)
+alert("El recargo total será de: " + recargo_total)
+alert("El precio final será de: " + precio_final)
 }
 
 // Bucle para realizar cotizaciones hasta que el usuario ingrese "Salir"
@@ -112,4 +121,5 @@ while (true) {
         alert("Por favor ingrese 'Sí' para continuar o 'Salir' para finalizar.")
     }
 }
+
 
